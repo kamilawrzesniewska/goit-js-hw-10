@@ -21,10 +21,9 @@ const renderInfo = data => {
 };
 
 const renderList = data => {
-  return data
-    .map(
+  return data.map(
       ({ name, flags }) =>
-        `<li><img src="${flags.png}" alt="${name.official}" width="60" height="40">${name.official}</li>`,
+        `<li><img src="${flags.png}" alt="${name.official}" width="50" height="30">${name.official}</li>`,
     )
     .join('');
 };
@@ -38,7 +37,7 @@ const userValue = e => {
     fetchCountries(trimInput)
       .then(response => {
         if (response.length > 10) {
-          Notify.info(
+          Notiflix.Notify.info(
             'Too many matches found. Please enter a more specific name.'
           );
           countryInfo.innerHTML = '';
