@@ -52,7 +52,7 @@ function onCountry(event) {
 function renderList(countries) {
     return countries.map(({ flags, name }) =>
     `<li>
-      <img src="${flags.svg}" alt="flag of ${name.official}" width = 30px; height = 15px;>
+      <img src="${flags.svg}" alt="flag of ${name.official}" width = 50px; height = 30px;>
         <span><b>${name.official}</b></span>
     </li>`)
     .join('');
