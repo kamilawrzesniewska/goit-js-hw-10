@@ -40,22 +40,22 @@ function onSearch(event) {
     return;
 }
 
-function countryCases(countries) {
+function renderCountry(countries) {
   if (countries.length > 10) {
-    manyResult();
+    ifManyFound();
   }
   if (countries.length > 1 && countries.length <= 10) {
-    someResults(countries);
+    ifSomeCountries(countries);
   }
   if (countries.length === 1) {
-    one(countries);
+    ifOnlyOneCountry(countries);
   }
 }
 
-function manyResult() {
+function ifManyFound() {
   Notify.failure(`Too many matches found. Please enter a more specific name.`);
 }
-function someResults(countries) {
+function ifSomeCountries(countries) {
   const markup = countries
     .map(({ name, flags }) => {
       return `
