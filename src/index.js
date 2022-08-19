@@ -33,45 +33,41 @@ function renderInfo (country) {
     countryInfo.innerHTML = renderInfo;
 }
 
-function onInputCountry(event) {
-  const inputValue = event.target.value.trim();
+const inputValue = evt => {
+  let { value } = evt.target;
+  value = value.trim().toLowerCase();
+  if (value) {
+    countryList.innerHTML = '';
+    countryInfo.innerHTML = '';
 
-  countryList.innerHTML = '';
-  countryInfo.innerHTML = '';
-
-  if (!inputValue) {
-      return;
-  }
-
-  fetchCountries(inputValue)
-      .then(createCountries)
-      .catch(error => {
-          console.log('error', error);
-          return Notify.failure('Oops, there is no country with that name');
+      fetchCountries(value).then(quantityСheck).catch((error) => {
+          console.log('error', error) 
+          Notify.failure('Oops, there is no country with that name');
       });
-}
-function createCountryList(data) {
-  const countriesListMarkup = data
-      .map(
-          ({ flags, name }) => `
-          <li class="country-list__item">
-              <img class="country-img" src="${flags.svg}" width="40">
-              <p>${name.official}</p>
-          </li>
-      `
-      )
-      .join('');
-  countryList.innerHTML = countriesListMarkup;
-}
-function createCountries(data) {
-  if (data.length >= 10) {
-      return Notify.info(
-          'Too many matches found. Please enter a more specific name.'
-      );
   }
+   if (value === '') {
+    countryInfo.innerHTML = '';
+      countryList.innerHTML = '';
+  }
+}
 
-  if (data.length === 1) {
-      return createCountryInfo(data);
+function quantityСheck(data) {
+  if (data.length > 10) {
+      Notify.info('Too many matches found. Please enter a more specific name.');
+      return
   }
-  createCountryList(data);
+  if (data.length > 1) {
+      renderCountryList(data)
+  } else {
+      renderContryInfo(data)
+  }
+ 
+}
+
+function renderCountryList(countries) {
+  const markup = countries
+      .map((country) => {
+          return `<li class='list-style'><p><img src="${country.flags.svg}" width = "20">  ${country.name.common}</p></li>`
+      }).join('');
+      countryList.innerHTML = markup;
 }
