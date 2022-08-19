@@ -40,22 +40,22 @@ function onSearch(event) {
     return;
 }
 
-function renderCountry(countries) {
+function countryCases(countries) {
   if (countries.length > 10) {
-    ifManyFound();
+    manyResult();
   }
   if (countries.length > 1 && countries.length <= 10) {
-    ifSomeCountries(countries);
+    someResults(countries);
   }
   if (countries.length === 1) {
-    ifOnlyOneCountry(countries);
+    oneResult(countries);
   }
 }
 
-function ifManyFound() {
-  Notify.failure(`Too many matches found. Please enter a more specific name.`);
+function manyResult() {
+  Notiflix.Notify.failure('Oops, there is no country with that name');
 }
-function ifSomeCountries(countries) {
+function someResults(countries) {
   const markup = countries
     .map(({ name, flags }) => {
       return `
@@ -69,6 +69,6 @@ function ifSomeCountries(countries) {
 
 
 function onFetchError(error) {
-    Notify.warning('Oops, there is no country with that name');
+    Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
     console.log(error);
 }}
