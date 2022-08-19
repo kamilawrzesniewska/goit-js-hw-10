@@ -33,43 +33,45 @@ function renderInfo (country) {
     countryInfo.innerHTML = renderInfo;
 }
 
-function onSearch(event) {
-  const userValue = event.target.value.trim();
-  if (!userValue) {
-    clearCountryData();
-    return;
-}
+function onInputCountry(event) {
+  const inputValue = event.target.value.trim();
 
-function renderCountry(countries) {
-  if (countries.length > 10) {
-    ifManyFound();
+  countryList.innerHTML = '';
+  countryInfo.innerHTML = '';
+
+  if (!inputValue) {
+      return;
   }
-  if (countries.length > 1 && countries.length <= 10) {
-    ifSomeCountries(countries);
+
+  fetchCountries(inputValue)
+      .then(createCountries)
+      .catch(error => {
+          console.log('error', error);
+          return Notify.failure('Oops, there is no country with that name');
+      });
+}
+function createCountryList(data) {
+  const countriesListMarkup = data
+      .map(
+          ({ flags, name }) => `
+          <li class="country-list__item">
+              <img class="country-img" src="${flags.svg}" width="40">
+              <p>${name.official}</p>
+          </li>
+      `
+      )
+      .join('');
+  countryList.innerHTML = countriesListMarkup;
+}
+function createCountries(data) {
+  if (data.length >= 10) {
+      return Notify.info(
+          'Too many matches found. Please enter a more specific name.'
+      );
   }
-  if (countries.length === 1) {
-    ifOnlyOneCountry(countries);
+
+  if (data.length === 1) {
+      return createCountryInfo(data);
   }
-}
-
-function ifManyFound() {
-  Notify.failure(`Too many matches found. Please enter a more specific name.`);
-}
-function ifSomeCountries(countries) {
-  const markup = countries
-    .map(({ name, flags }) => {
-      return `
-       <li><p><img style="width: 30px; margin-right: 20px" src="${flags.svg}">${name.official}</p></li>    
-               `;
-    })
-    .join('');
-
-  countryList.insertAdjacentHTML('beforeend', markup);
-}
-
-
-function onFetchError(error) {
-  Notify.warning('Oops, there is no country with that name');
-  console.log(error);
-}
+  createCountryList(data);
 }
