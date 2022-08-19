@@ -48,12 +48,12 @@ function countryCases(countries) {
     someResults(countries);
   }
   if (countries.length === 1) {
-    oneResult(countries);
+    one(countries);
   }
 }
 
 function manyResult() {
-  Notiflix.Notify.failure('Oops, there is no country with that name');
+  Notify.failure(`Too many matches found. Please enter a more specific name.`);
 }
 function someResults(countries) {
   const markup = countries
@@ -69,6 +69,6 @@ function someResults(countries) {
 
 
 function onFetchError(error) {
-    Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
+    Notify.warning('Oops, there is no country with that name');
     console.log(error);
 }}
