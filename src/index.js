@@ -38,7 +38,7 @@ function onSearch(event) {
   if (!userValue) {
     clearCountryData();
     return;
-}
+}}
 
 function renderCountry(countries) {
   if (countries.length > 10) {
@@ -69,6 +69,7 @@ function ifSomeCountries(countries) {
 
 
 function onFetchError(error) {
-    Notify.warning('Oops, there is no country with that name');
-    console.log(error);
-}}
+  Notify.warning('Oops, there is no country with that name');
+  console.log(error);
+}
+
